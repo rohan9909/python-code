@@ -1,0 +1,29 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def mandelbrot(c, max_iter):
+    z = 0
+    n = 0
+    while abs(z) <= 2 and n < max_iter:
+        z = z*z + c
+        n += 1
+    return n
+
+def mandelbrot_set(xmin, xmax, ymin, ymax, width, height, max_iter):
+    x, y = np.meshgrid(np.linspace(xmin, xmax, width), np.linspace(ymin, ymax, height))
+    c = x + y*1j
+    mandelbrot = np.zeros((height, width))
+    for i in range(height):
+        for j in range(width):
+            mandelbrot[i, j] = mandelbrot(c[i, j], max_iter)
+    return mandelbrot
+
+xmin, xmax, ymin, ymax = -2, 0.5, -1.25, 1.25
+width, height = 1000, 1000
+max_iter = 100
+
+mandelbrot = mandelbrot_set(xmin, xmax, ymin, ymax, width, height, max_iter)
+
+plt.imshow(mandelbrot, cmap='magma')
+plt.axis('off')
+plt.show()
